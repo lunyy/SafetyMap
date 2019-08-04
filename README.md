@@ -1,0 +1,2 @@
+# SafetyMap
+Graduation project
