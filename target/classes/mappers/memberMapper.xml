@@ -6,5 +6,5 @@
 <mapper namespace="com.spring.mappers.memberMapper">
  <select id="selectMember" resultType="com.spring.dto.MemberVO">
         select oldAddr,cctvType,posx,posy from cheonan_cctv
-    </select>    
+  </select>    
 </mapper>
