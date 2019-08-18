@@ -38,7 +38,7 @@ public class HomeController {
 	@Autowired
 	private StreetlampService service2;
 	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET, produces="text/json;charset=UTF-8")
 	public String home(Locale locale, Model model) throws Exception{
 		logger.info("home");
 		
@@ -48,5 +48,6 @@ public class HomeController {
 		model.addAttribute("memberList",memberList);
 		model.addAttribute("memberList2",memberList2);
 		return "home";
-	}	
+	}
+	
 }

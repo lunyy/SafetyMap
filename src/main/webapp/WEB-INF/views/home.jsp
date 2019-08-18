@@ -7,66 +7,93 @@
     <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <title>Safety Map</title>
-    <script src="../../docs/js/jquery-1.9.1.js"></script>
-    <script type="text/javascript" src="../../docs/js/examples-base.js"></script>
-    <script type="text/javascript" src="../../docs/js/highlight.min.js"></script>
+    <script src="./resources/js/jquery-1.9.1.js"></script>
+    <script type="text/javascript" src="./resources/js/examples-base.js"></script>
+    <script type="text/javascript" src="./resources/js/highlight.min.js"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk&amp;submodules=geocoder"></script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=83bfuniegk&amp;submodules=panorama"></script>
-     <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=kcdydbiwel"></script>
     <script type="text/javascript" src="./resources/js/MarkerClustering.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../docs/css/examples-base.css" />
+    <link rel="stylesheet" type="text/css" href="./resources/css/examples-base.css" />
     <script>
         var HOME_PATH = '../../docs';
     </script>
 </head>
 <body>
 
+<style>
+    #map .btn_mylct{z-index:100;overflow:hidden;display:inline-block;position:absolute;top:7px;left:5px;width:34px;height:34px;border:1px solid rgba(58,70,88,.45);border-radius:2px;background:#fcfcfd;text-align:center;-webkit-background-clip:padding;background-clip:padding-box}
+    #map .spr_trff{overflow:hidden;display:inline-block;color:transparent!important;vertical-align:top;background:url(https://ssl.pstatic.net/static/maps/m/spr_trff_v6.png) 0 0;background-size:200px 200px;-webkit-background-size:200px 200px}
+    #map .spr_ico_mylct{width:20px;height:20px;margin:7px 0 0 0;background-position:-153px -31px}
+</style>
+<style type="text/css">
+.search { position:absolute;z-index:1000;top:10px;left:45px; }
+.search #address { width:150px;height:20px;line-height:20px;border:solid 1px #555;padding:5px;font-size:12px;box-sizing:content-box; }
+.search #submit { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+.search #detail { height:30px;line-height:30px;padding:0 10px;font-size:12px;border:solid 1px #555;border-radius:3px;cursor:pointer;box-sizing:content-box; }
+</style>
+
 <!-- @category Overlay/Marker -->
 
-<div id="map" style="width:100%;height:600px;"></div>
+<div id="map" style="width:100%;height:600px;">
+ <div class="search" style="">
+            <input id="address" type="text" placeholder="주소를 입력하세요"/>
+            <input id="submit" type="button" value="검색" />
+            <input id ="detail" type="button" value="주소찾기"/>
+        </div>
+</div>
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 <script id="code">
 
 //cctv db load
-var cen_x = 36.765797;
-var cen_y = 127.282328;
-var addr = new Array();
-var type = new Array();
-var posx = new Array();
-var posy = new Array();
-var cnt = 0;
+var cen_x = 36.7433987 , cen_y = 127.2331899 , index = 0;
+var addr = new Array(), type = new Array(), posx = new Array(),posy = new Array();
 
-<c:forEach items="${memberList}" var="member">	
-		<c:if test = "${member.posx < 36.765797 and member.posx > 36.709797}">
-			<c:if test = "${member.posy < 127.282328 and member.posy > 127.00328}">
-				posx[cnt] = "${member.posx}";
-				posy[cnt] = "${member.posy}";
-				addr[cnt] = "${member.oldAddr}";
-				type[cnt] = "${member.cctvType}";	
-		</c:if>
-	</c:if>
-	cnt = cnt+1;
-</c:forEach>
+var loadData = $.ajax({
+		url :'./resources/data/cctv.json',
+		type :"GET",
+		contentType: "application/text; charset=UTF-8",
+		dataType : "JSON",
+		success : function(data){
+			for(var sam = 0; sam < data.length; sam++){
+				if(data[sam].posx < (cen_x+0.05) && data[sam].posx > (cen_x-0.05)){
+					if(data[sam].posy < (cen_y+0.05) && data[sam].posy > (cen_y-0.05)){
+						posx[index] = data[index].posx;
+						posy[index] = data[index].posy;
+						type[index] = data[index].cctvType;
+						addr[index] = data[index].oldAddr;
+						index = index+1;
+						}
+					}
+				}
+			}
+		});
 
-//streetlamp db load
-var posx_s = new Array();
-var posy_s = new Array();
-var cnt2 = 0;
-<c:forEach items="${memberList2}" var="street" end = "5000">	
-	posx_s[cnt2] = "${street.posx}";
-	posy_s[cnt2] = "${street.posy}";
-	cnt2 = cnt2+1;
-</c:forEach>
+
 
 var HOME_PATH = window.HOME_PATH || '.';
 
+//gps position load
+var getPosition = function (options) {
+	  return new Promise(function (resolve, reject) {
+	    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+	  });
+	}
+
 //map load
 var map = new naver.maps.Map('map', {
-    center: new naver.maps.LatLng(36.765797, 127.282328),
-    zoom: 7,
+	position: naver.maps.LatLng(cen_x,cen_y),
+    zoom: 11,
     zoomControl: true,
     zoomControlOptions: {
-        position: naver.maps.Position.TOP_LEFT,
+        position: naver.maps.Position.TOP_RIGHT,
         style: naver.maps.ZoomControlStyle.SMALL
+    },
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+    	style:naver.maps.MapTypeControlStyle.BUTTON,
+    	position: naver.maps.Position.TOP_RIGHT
     }
 });
 
@@ -76,28 +103,32 @@ var bounds = map.getBounds(),
     lngSpan = northEast.lng() - southWest.lng(),
     latSpan = northEast.lat() - southWest.lat();
 
+
 var markers = [], //cctv markers
 	markers2 = [], //streetlamp markers
     infoWindows = []; //cctv addr, cctv type information window
-var contentstring = new Array();
+var contentstring = new Array(); // contentstring data array
+
+
+//cctv marking function
+function marking(){
 
 //contentstring data push
-for (let k = 0; k<500; k++){
-	contentstring[k]= [
-        '<div class="iw_inner">',
-        '   <h3 style = "font-size:0.7em;">'+addr[k]+'</h3>',
-        '   <p style = "font-size:0.5em;">'+type[k]+'<br />',
-        '   </p>',
-        '</div>'
-    ].join('');
+for (let k = 0; k<300; k++){
+		contentstring[k]= [
+	    '<div class="iw_inner">',
+	    '   <h3 style = "font-size:0.7em;">'+addr[k]+'</h3>',
+	    '   <p style = "font-size:0.5em;">'+type[k]+'<br />',
+	    '   </p>',
+	    '</div>'
+	  ].join('');
 }
 
 // make cctv marker
-for (let i = 0; i<500; i++) {
-
-    var position = new naver.maps.LatLng(
+for (let i = 0; i<300; i++) {
+    	var position = new naver.maps.LatLng(
     		posx[i], posy[i]);
-  
+
         var marker = new naver.maps.Marker({
             map: map,
             position: position,
@@ -106,8 +137,7 @@ for (let i = 0; i<500; i++) {
             	url:'./resources/images/cctv2.png'
             }
         });
-        
-        
+
         var infoWindow = new naver.maps.InfoWindow({
         	 borderColor: "#A4A4A4",
         	 borderWidth: 2,
@@ -117,29 +147,17 @@ for (let i = 0; i<500; i++) {
 
         markers.push(marker);
         infoWindows.push(infoWindow);
-};
-
-//make streetlamp marker
-for (let j = 0; j<3000; j++){
-	 var position2 = new naver.maps.LatLng( 
-			posx_s[j], posy_s[j]);
-	 
-	  var marker2 = new naver.maps.Marker({
-	        map: map,
-	        position: position2,
-	        zIndex: 100,
-	        icon:{
-	        	url:'./resources/images/streetlamp.png'
-	        }
-	    });
-	  
-	  markers2.push(marker2);
+	};
+     for (var i=0, ii=markers.length; i<ii; i++) {
+         naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+     }
+     
+     alert("cctv개수 : "+index);
 }
 
 naver.maps.Event.addListener(map, 'idle', function() {
     updateMarkers(map, markers);
 });
-
 
 // cctv marker clustering icon
 var cctvMarker1 = {
@@ -168,7 +186,135 @@ var cctvMarker1 = {
         anchor: N.Point(20, 20)
     };
 
-// street lamp clustering icon
+    //cctv marker clustering module
+    var markerClustering = new MarkerClustering({
+        minClusterSize: 2,
+        maxZoom: 12,
+        map: map,
+        markers: markers,
+        disableClickZoom: false,
+        gridSize: 120,
+        icons: [cctvMarker1, cctvMarker2, cctvMarker3, cctvMarker4, cctvMarker5],
+        indexGenerator: [5, 10, 30, 100, 500],
+        stylingFunction: function(clusterMarker, count) {
+            $(clusterMarker.getElement()).find('div:first-child').text(count);
+        }
+    });
+
+
+    function refreshmap(){
+        location.reload();
+    }
+
+    //지도 화면 안에 들어오는 마커 show (마커가 지도 밖에 있으면 hide)를 위한 module
+    function updateMarkers(map, markers) {
+
+        var mapBounds = map.getBounds();
+        var marker, position;
+
+        //refreshmap();
+
+        for (var i = 0; i < markers.length; i++) {
+
+            marker = markers[i];
+            position = marker.getPosition();
+
+            if (mapBounds.hasLatLng(position)) {
+                showMarker(map, marker);
+
+            } else {
+                hideMarker(map, marker);
+
+            }
+        }
+    }
+
+    //지도 화면 안에 들어오는 마커 show (마커가 지도 밖에 있으면 hide)
+    function showMarker(map, marker) {
+
+        if (marker.setMap()) return;
+        marker.setMap(map);
+    }
+
+    function hideMarker(map, marker) {
+
+        if (!marker.setMap()) return;
+        marker.setMap(null);
+    }
+
+    // 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환
+    function getClickHandler(seq) {
+        return function(e) {
+            var marker = markers[seq],
+                infoWindow = infoWindows[seq];
+
+            if (infoWindow.getMap()) {
+                infoWindow.close();
+            } else {
+                infoWindow.open(map, marker);
+            }
+        }
+    }
+
+//go back to user position(원하는 좌표로 이동하는 버튼 - 추후에 사용자 gps 받아서 사용자 위치로 이동하는 버튼으로 수정 예정)
+var locationBtnHtml = '<a href="#" class="btn_mylct"><span class="spr_trff spr_ico_mylct">user location</span></a>';
+
+//customControl 객체 이용하기
+var customControl = new naver.maps.CustomControl(locationBtnHtml, {
+        position: naver.maps.Position.TOP_LEFT
+});
+
+customControl.setMap(map);
+
+var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
+    map.setCenter(new naver.maps.LatLng(cen_x, cen_y));
+    map.setZoom(12,true);
+});
+   
+
+//streetlamp db load
+var posx_s = new Array(), posy_s = new Array();
+var index2 = 0;
+
+var loadData2 = $.ajax({
+	url :'./resources/data/street.json',
+	type :"GET",
+	contentType: "application/text; charset=UTF-8",
+	dataType : "JSON",
+	success : function(data){
+		for(var sam = 0; sam < data.length; sam++){
+			if(data[sam].posx < cen_x+0.05 && data[sam].posx > cen_x-0.05)
+				if(data[sam].posy < cen_y+0.05 && data[sam].posy > cen_y-0.05){
+					posx_s[index2] = data[index2].posx;
+					posy_s[index2] = data[index2].posy;
+					index2 = index2+1;
+				}
+			}
+		}
+	});
+
+//streetlamp marking function
+function marking2(){
+	
+	for (let j = 0; j<2000; j++){
+		 var position2 = new naver.maps.LatLng(
+				posx_s[j], posy_s[j]);
+
+		 var marker2 = new naver.maps.Marker({
+		        map: map,
+		        position: position2,
+		        zIndex: 100,
+		        icon:{
+		        	url:'./resources/images/streetlamp.png'
+		        }
+		    });
+
+		  markers2.push(marker2);
+	}
+	alert("가로등개수 : "+index2);
+}
+
+//street lamp clustering icon
 var streetlampMarker1 = {
         content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./resources/images/streetlamp_c3.png);background-size:contain;"></div>',
         size: N.Size(40, 40),
@@ -184,22 +330,8 @@ var streetlampMarker1 = {
         size: N.Size(40, 40),
         anchor: N.Point(20, 20)
 	};
-
+	
 //streetlamp marker clustering module
-var markerClustering = new MarkerClustering({
-    minClusterSize: 2,
-    maxZoom: 12,
-    map: map,
-    markers: markers,
-    disableClickZoom: false,
-    gridSize: 120,
-    icons: [cctvMarker1, cctvMarker2, cctvMarker3, cctvMarker4, cctvMarker5],
-    indexGenerator: [5, 10, 30, 100, 500],
-    stylingFunction: function(clusterMarker, count) {
-        $(clusterMarker.getElement()).find('div:first-child').text(count);
-    }
-});
-
 var markerClustering2 = new MarkerClustering({
     minClusterSize: 7,
     maxZoom: 12,
@@ -214,62 +346,135 @@ var markerClustering2 = new MarkerClustering({
     }
 });
 
-function refreshmap(){  
-    location.reload();
-}
+var infoWindow = new naver.maps.InfoWindow({
+    anchorSkew: true
+});
 
-function updateMarkers(map, markers) {
+map.setCursor('pointer');
 
-    var mapBounds = map.getBounds();
-    var marker, position;
+// search by tm128 coordinate
+function searchCoordinateToAddress(latlng) {
+    var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
 
-    //refreshmap();
-    
-    for (var i = 0; i < markers.length; i++) {
+    infoWindow.close();
 
-        marker = markers[i];
-        position = marker.getPosition();
-
-        if (mapBounds.hasLatLng(position)) {
-            showMarker(map, marker);
-            
-        } else {
-            hideMarker(map, marker);
-           
+    naver.maps.Service.reverseGeocode({
+        location: tm128,
+        coordType: naver.maps.Service.CoordType.TM128
+    }, function(status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+            return alert('Something Wrong!');
         }
-    }
-}
 
-//지도 화면 안에 들어오는 마커 팝업
-function showMarker(map, marker) {
+        var items = response.result.items,
+            htmlAddresses = [];
 
-    if (marker.setMap()) return;
-    marker.setMap(map);
-}
+        for (var i=0, ii=items.length, item, addrType; i<ii; i++) {
+            item = items[i];
+            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]';
 
-function hideMarker(map, marker) {
-
-    if (!marker.setMap()) return;
-    marker.setMap(null);
-}
-
-// 해당 마커의 인덱스를 seq라는 클로저 변수로 저장하는 이벤트 핸들러를 반환합니다.
-function getClickHandler(seq) {
-    return function(e) {
-        var marker = markers[seq],
-            infoWindow = infoWindows[seq];
-
-        if (infoWindow.getMap()) {
-            infoWindow.close();
-        } else {
-            infoWindow.open(map, marker);
+            htmlAddresses.push((i+1) +'. '+ addrType +' '+ item.address);
         }
-    }
+
+        infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 좌표</h4><br />',
+                htmlAddresses.join('<br />'),
+                '</div>'
+            ].join('\n'));
+
+        infoWindow.open(map, latlng);
+    });
 }
 
-for (var i=0, ii=markers.length; i<ii; i++) {
-    naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+var flag = 0;
+
+
+// result by latlng coordinate
+function searchAddressToCoordinate(address) {
+    naver.maps.Service.geocode({
+        address: address
+    }, function(status, response) {
+        if (status === naver.maps.Service.Status.ERROR) {
+            return alert('Something Wrong!');
+        }
+
+        var item = response.result.items[0],
+            addrType = item.isRoadAddress ? '[도로명 주소]' : '[지번 주소]',
+            point = new naver.maps.Point(item.point.x, item.point.y);
+
+        infoWindow.setContent([
+                '<div style="padding:10px;min-width:200px;line-height:150%;">',
+                '<h4 style="margin-top:5px;">검색 주소 : '+ response.result.userquery +'</h4><br />',
+                addrType +' '+ item.address +'<br />',
+                '</div>'
+            ].join('\n'));
+
+
+        map.setCenter(point);
+        infoWindow.open(map, point);
+    });
 }
+
+function initGeocoder() {
+    map.addListener('click', function(e) {
+        searchCoordinateToAddress(e.coord);
+    });
+
+    $('#address').on('keydown', function(e) {
+        var keyCode = e.which;
+
+        if (keyCode === 13) { // Enter Key
+            searchAddressToCoordinate($('#address').val());
+        }
+    });
+    $('#submit').on('click', function(e) {
+        e.preventDefault();
+        searchAddressToCoordinate($('#address').val());
+    });
+    $('#detail').on('click', function(e) {
+        e.preventDefault();
+        new daum.Postcode({
+            oncomplete: function(data) {
+            	var addr = data.address; // 최종 주소 변수
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("address").value = addr;
+            }
+        }).open();
+    });
+}
+
+naver.maps.onJSContentLoaded = initGeocoder;
+
+
+//cctv, streetlamp marker promise
+getPosition()
+.then((position) => { //get gps position
+	cen_x = 36.7581118; //임시 좌표
+	cen_y = 127.264679; //임시좌표
+	//cen_x = position.coords.latitude; //현재 gps 좌표
+	//cen_y = position.coords.longitude; //현재 gps 좌표
+	map.setCenter(naver.maps.LatLng(cen_x,cen_y));
+	var mylocation = new naver.maps.Marker({ //현재 위치 좌표 마커 표시
+	        map: map,
+	        position: naver.maps.LatLng(cen_x,cen_y),
+	        zIndex: 100,
+	        icon:{
+	        	url:'./resources/images/mylocation.png'
+	        }
+	    });
+ })
+ .then((position) => { //cctv marker maker
+	 loadData.then(marking); 
+ })
+ .then((position) => { //streetlamp marker maker
+	 loadData2.then(marking2);
+ })
+ .catch((err) => {
+  alert(err.message);
+ });
+
+   
 </script>
 </body>
 </html>
