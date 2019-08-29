@@ -1,0 +1,200 @@
+[
+ {
+   "no": "1",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "쌍용",
+   "section": "지구대",
+   "posx": "36.804464",
+   "posy": "127.119437",
+   "phoneNo": "041-575-0189",
+   "address": "충청남도 천안시 서북구 쌍용12길 3"
+ },
+ {
+   "no": "2",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "두정",
+   "section": "지구대",
+   "posx": "36.833376",
+   "posy": "127.131918",
+   "phoneNo": "041-568-6112",
+   "address": "충청남도 천안시 서북구  오성9길 40"
+ },
+ {
+   "no": "3",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "성정",
+   "section": "지구대",
+   "posx": "36.810655",
+   "posy": "127.14493",
+   "phoneNo": "041-561-0112",
+   "address": "충청남도 천안시 서북구  천안천4길 48 "
+ },
+ {
+   "no": "4",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "불당",
+   "section": "지구대",
+   "posx": "36.818138",
+   "posy": "127.108115",
+   "phoneNo": "041-556-0112",
+   "address": " 충청남도 천안시 서북구 불당23로 66번지"
+ },
+ {
+   "no": "5",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "직산",
+   "section": "파출소",
+   "posx": "36.874941",
+   "posy": "127.735",
+   "phoneNo": "041-563-0112",
+   "address": "충청남도 서북구 삼은2길 27번지"
+ },
+ {
+   "no": "6",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "성거",
+   "section": "파출소",
+   "posx": "36.872779",
+   "posy": "127.200858",
+   "phoneNo": "416220112",
+   "address": "충청남도 천안시 서북구 성거읍 성거길 80"
+ },
+ {
+   "no": "7",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "성환",
+   "section": "파출소",
+   "posx": "36.917124",
+   "posy": "127.128569",
+   "phoneNo": "415810112",
+   "address": "충청남도 천안시 서북구 성환읍 성환11길 5"
+ },
+ {
+   "no": "8",
+   "districtOffice": "충남청",
+   "location": "천안서북",
+   "name": "입장",
+   "section": "파출소",
+   "posx": "36.907242",
+   "posy": "127.226882",
+   "phoneNo": "041-582-0112",
+   "address": "충청남도 천안시 서북구 입장면 망향로 1088"
+ },
+ {
+   "no": "9",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "목천북면",
+   "section": "파출소",
+   "posx": "36.785907",
+   "posy": "127.235723",
+   "phoneNo": "041-557-2112",
+   "address": "충청남도 천안시 동남구 목천읍 서리1길 50"
+ },
+ {
+   "no": "10",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "수신성남",
+   "section": "파출소",
+   "posx": "36.731494",
+   "posy": "127.281203",
+   "phoneNo": "041-522-0112",
+   "address": "충청남도 천안시 동남구 수신면 수신로 433"
+ },
+ {
+   "no": "11",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "병천동면",
+   "section": "파출소",
+   "posx": "36.763738",
+   "posy": "127.2976",
+   "phoneNo": "041-564-1112",
+   "address": "충청남도 천안시 동남구 병천면 충절로 1729 "
+ },
+ {
+   "no": "12",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "광덕풍세",
+   "section": "파출소",
+   "posx": "36.698988",
+   "posy": "127.11714",
+   "phoneNo": "041-567-0112",
+   "address": "충청남도 천안시 동남구 광덕면 신흥리4길 46"
+ },
+ {
+   "no": "13",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "신방",
+   "section": "파출소",
+   "posx": "36.783426",
+   "posy": "127.128351",
+   "phoneNo": "041-576-0112",
+   "address": "충청남도 천안시 동남구 통정4로 38"
+ },
+ {
+   "no": "14",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "문성",
+   "section": "파출소",
+   "posx": "36.807196",
+   "posy": "127.149474",
+   "phoneNo": "041-551-2663",
+   "address": "충청남도 천안시 동남구  옛시청길 21"
+ },
+ {
+   "no": "15",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "신안",
+   "section": "파출소",
+   "posx": "36.81821",
+   "posy": "127.15365",
+   "phoneNo": "041-568-9112",
+   "address": "충청남도 천안시 동남구  먹거리11길 12"
+ },
+ {
+   "no": "16",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "남산",
+   "section": "파출소",
+   "posx": "36.79891",
+   "posy": "127.153783",
+   "phoneNo": "041-551-2664",
+   "address": "충청남도 천안시 동남구  충무로 437, 437-1"
+ },
+ {
+   "no": "17",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "원성",
+   "section": "파출소",
+   "posx": "36.804399",
+   "posy": "127.159159",
+   "phoneNo": "041-564-8112",
+   "address": "충청남도 천안시 동남구 충절로 167"
+ },
+ {
+   "no": "18",
+   "districtOffice": "충남청",
+   "location": "천안동남",
+   "name": "일봉",
+   "section": "파출소",
+   "posx": "36.800684",
+   "posy": "127.135537",
+   "phoneNo": "041-575-0112",
+   "address": "충청남도 천안시 동남구  차돌로 44 "
+ }
+]
