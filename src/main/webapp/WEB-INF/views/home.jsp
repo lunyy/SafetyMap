@@ -108,26 +108,20 @@
 	position: absolute;
 	z-index: 1000;
 	top: 10px;
-	left: 335px;
+	left: 45px;
 }
 </style>
 
 	<!-- @category Overlay/Marker -->
 
 	<div id="map" style="width: 100%; height: 600px;">
-		<div class="search" style="">
-			<input id="address" type="text" placeholder="주소를 입력하세요" /> <input
-				id="submit" type="button" value="검색" /> <input id="detail"
-				type="button" value="주소찾기" />
-		</div>
 		<div class="select" style="">
 			<fieldset
 				style="background-color: white; text-align: center; vertical-align: middle; border-color: #DCDCDC;">
 				<input type="checkbox" id="cctv" name="cc">CCTV <input
-					type="checkbox" id="streetlamp" name="st">Streetlamp <input
-					type="checkbox" id="police" name="po">Police <input
-					type="checkbox" id="searchAddress" name="ad">Click <input
-					type="checkbox" id="update" name="up">Update
+					type="checkbox" id="streetlamp" name="st">가로등<input
+					type="checkbox" id="police" name="po">경찰서<input
+					type="checkbox" id="searchAddress" name="ad">주소
 			</fieldset>
 		</div>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -135,10 +129,12 @@
 
 
 //cctv db load
-var cen_x = 36.7433987 , cen_y = 127.2331899 , index_c = 0;
+var gps_x = 0, gps_y = 0;
+var cen_x = 0, cen_y = 0 , index_c = 0;
 var addr = new Array(), type = new Array(), posx = new Array(),posy = new Array();
-var flag = 1;
+var flag = 1, flag2 = 1, flag3 = 1;
 var markerClustering1,markerClustering2;
+var load = 0;
 
 var markers = [], //cctv markers
 markers2 = [], //streetlamp markers
@@ -148,44 +144,40 @@ infoWindows2 = []; //police markers information window
 var contentstring = new Array(), // contentstring data array
 contentstring2 = new Array();
 
-var loadData1 = $.ajax({
-      url :'./resources/data/cctv.json',
-      type :"GET",
-      contentType: "application/text; charset=UTF-8",
-      dataType : "JSON",
-      success : function(data){
-    	 //alert(cen_x);
-         //alert(cen_y);
-         for(var sam = 0; sam < data.length; sam++){
-            if(data[sam].posx < (cen_x+0.08) && data[sam].posx > (cen_x-0.05)){
-               if(data[sam].posy < (cen_y+0.05) && data[sam].posy > (cen_y-0.05)){
-                  posx[index_c] = data[index_c].posx;
-                  posy[index_c] = data[index_c].posy;
-                  type[index_c] = data[index_c].cctvType;
-                  addr[index_c] = data[index_c].oldAddr;
-                  index_c = index_c+1; 
-				}
-			}
- 		}
-	}
-});
+function getData(){ //cctv ajax 호출
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            url : './resources/data/cctv.json',
+            type : 'GET',
+            contentType : 'application/text; charset=UTF-8',
+            dataType : 'JSON',
+            cache : false,
+            success : function(data) {
+                resolve(data);
+            },
+            error: function(error) {
+                reject(error);
+            }
+        })
+    })
+}
 
 //cctv marking function
 function marking_cctv(){
 
 //contentstring data push
-for (let k = 0; k<300; k++){
+for (let k = 0; k<1000; k++){
       contentstring[k]= [
        '<div class="iw_inner">',
        '   <h3 style = "font-size:0.7em;">'+addr[k]+'</h3>',
-       '   <p style = "font-size:0.5em;">'+type[k]+'<br />',
+       '   <p style = "font-size:0.7em;">'+type[k]+'<br />',
        '   </p>',
        '</div>'
      ].join('');
 }
 
 // make cctv marker
-for (let i = 0; i<300; i++) {
+for (let i = 0; i<1000; i++) {
        var position = new naver.maps.LatLng(
           posx[i], posy[i]);
 
@@ -258,22 +250,23 @@ var cctvMarker1 = {
 var posx_s = new Array(), posy_s = new Array();
 var index_s = 0;
 
-var loadData2 = $.ajax({
-   url :'./resources/data/street.json',
-   type :"GET",
-   contentType: "application/text; charset=UTF-8",
-   dataType : "JSON",
-   success : function(data){
-      for(var sam = 0; sam < data.length; sam++){
-         if(data[sam].posx < cen_x+0.05 && data[sam].posx > cen_x-0.05)
-            if(data[sam].posy < cen_y+0.05 && data[sam].posy > cen_y-0.05){
-               posx_s[index_s] = data[index_s].posx;
-               posy_s[index_s] = data[index_s].posy;
-               index_s = index_s+1;
+function getData2(){ // street lamp ajax 호출 
+    return new Promise(function(resolve, reject) {
+        $.ajax({
+            url : './resources/data/street.json',
+            type : 'GET',
+            contentType : 'application/text; charset=UTF-8',
+            dataType : 'JSON',
+            cache : false,
+            success : function(data) {
+                resolve(data);
+            },
+            error: function(error) {
+                reject(error);
             }
-         }
-      }
-   });
+        })
+    })
+}
 
 //streetlamp marking function
 function marking_streetlamp(){
@@ -342,7 +335,6 @@ var loadData3 = $.ajax({
     contentType: "application/text; charset=UTF-8",
     dataType : "JSON",
     success : function(data){
-    alert("success!");
       		for(var sam = 0; sam < 18; sam++){
       			name_p[sam] = data[sam].name;
       			section_p[sam] = data[sam].section;
@@ -356,7 +348,6 @@ var loadData3 = $.ajax({
 
 
 function marking_police(){
-	alert(posx_p[0]);
 	//contentstring data push
 	
 	for (let k = 0; k<18; k++){
@@ -367,7 +358,7 @@ function marking_police(){
 	       '   </p>',
 	       '</div>'
 	     ].join('');
-	}
+		}
 
 	// make police marker
 	for (let i = 0; i<18; i++) {
@@ -377,7 +368,10 @@ function marking_police(){
 	        var marker = new naver.maps.Marker({
 	            map: map,
 	            position: position,
-	            zIndex: 100
+	            zIndex: 100,
+	            icon:{
+	                url:'./resources/images/police.png'
+	             }
 	        });
 
 	        var infoWindow2 = new naver.maps.InfoWindow({
@@ -408,7 +402,7 @@ var getPosition = function (options) {
 //map load
 var map = new naver.maps.Map('map', {
    position: naver.maps.LatLng(cen_x,cen_y),
-    zoom: 5,
+    zoom: 7,
     zoomControl: true,
     zoomControlOptions: {
         position: naver.maps.Position.TOP_RIGHT,
@@ -512,8 +506,8 @@ var customControl = new naver.maps.CustomControl(locationBtnHtml, {
 customControl.setMap(map);
 
 var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
-    map.setCenter(new naver.maps.LatLng(cen_x, cen_y));
-    map.setZoom(12,true);
+    map.setCenter(new naver.maps.LatLng(gps_x, gps_y));
+    map.setZoom(10,true);
 });
    
 
@@ -636,22 +630,59 @@ function searchBt(){ // SEARCH!!!
 
 function checkbox_cctv(){
    $('input[name="cc"]').change(function(){
-      if($('input[name="cc"]').is(":checked")){
-         marking_cctv();
+	  var value = $(this).val();
+	  var checked = $(this).prop('checked');
+      if(checked){
+    	  getData().then((data) => { 
+    	  	 var pos = map.getCenter();
+    	     cen_x = pos.lat();
+    	     cen_y = pos.lng();
+    	     var x_plus = parseFloat(cen_x+0.03).toFixed(3);
+    	     var x_minus = parseFloat(cen_x-0.03).toFixed(3);
+    	     var y_plus = parseFloat(cen_y+0.03).toFixed(3);
+    	     var y_minus = parseFloat(cen_y-0.03).toFixed(3);
+    	  	 for(var sam = 0; sam < data.length; sam++){
+    	  		var temp_x = parseFloat(data[sam].posx).toFixed(3);
+     	  		var temp_y = parseFloat(data[sam].posy).toFixed(3);
+     	  		var temp_type = data[sam].cctvType;
+     	  		var temp_addr = data[sam].oldAddr;
+    	           if((x_minus < temp_x) && (temp_x <= x_plus)){
+    	              if((y_minus < temp_y) && (temp_y <= y_plus)){
+    	                 posx[index_c] = temp_x;
+    	                 posy[index_c] = temp_y;
+    	                 type[index_c] = temp_type;
+    	                 addr[index_c] = temp_addr;
+    	                 index_c = index_c+1;
+    	                 }
+    	            }
+    	  	 }
+    	  }).then((data) => {
+    		marking_cctv();
+    	  }).catch((err) => {
+    	  	alert("Woops!");
+    	  });	   
       }
       else{
-         remove_cctv();
-         markerClustering1.setMap(null);
+        remove_cctv();
+        markerClustering1.setMap(null);
+       	index_c = 0;
+       	posx = [], posy = [], type = [], addr = [];
       }
    });
 }
 
 function remove_cctv(){
    for (var i = 0; i < markers.length; i++) {
-      var marker = markers[i]
-        marker.setMap(null);
+      var marker = markers[i];
+      marker.setMap(null);
     }
+   for (var ii = 0; ii < infoWindows.length; ii++){
+	   var infowindow = infoWindows[ii];
+	   infowindow.setMap(null);
+   }
    markers = [];
+   infoWindows = [];
+  
 }
 
 function checkbox_streetlamp(){
@@ -659,19 +690,45 @@ function checkbox_streetlamp(){
       var value = $(this).val();
       var checked = $(this).prop('checked');
       if(checked){
-         marking_streetlamp();
+    	  getData2().then((data) => { 
+     	  	 pos = map.getCenter();
+     	     cen_x = pos.lat();
+     	     cen_y = pos.lng();
+     	     var x_plus2 = parseFloat(cen_x+0.03).toFixed(3);
+     	     var x_minus2 = parseFloat(cen_x-0.03).toFixed(3);
+     	     var y_plus2 = parseFloat(cen_y+0.03).toFixed(3);
+     	     var y_minus2 = parseFloat(cen_y-0.03).toFixed(3);
+     	  	 for(var sam = 0; sam < data.length; sam++){
+     	  		 var temp_x = parseFloat(data[sam].posx).toFixed(3);
+     	  		 var temp_y = parseFloat(data[sam].posy).toFixed(3);
+     	           if((temp_x <= x_plus2)&&(temp_x > x_minus2)){
+     	              if((temp_y <= y_plus2)&&(temp_y > y_minus2)){
+     	                 posx_s[index_s] = temp_x;
+     	                 posy_s[index_s] = temp_y;
+     	                 index_s = index_s+1;
+     	                 }
+     	            }
+     	  	 }
+     	  }).then((data) => {
+     		 marking_streetlamp();
+     	  }).catch((err) => {
+     	  	alert("Woops!");
+     	  });	   
       }
       else{
          remove_streetlamp();
          markerClustering2.setMap(null);
+         index_s = 0;
+         posx_s = [];
+         posy_s = [];
       }
    });
 }
 
 function remove_streetlamp(){
    for (var i = 0; i < markers2.length; i++) {
-      var marker2 = markers2[i]
-        marker2.setMap(null);
+      var marker2 = markers2[i];
+      marker2.setMap(null);
     }
     markers2 = [];
 }
@@ -681,11 +738,9 @@ function checkbox_police(){
 	      var value = $(this).val();
 	      var checked = $(this).prop('checked');
 	      if(checked){
-	    	alert("is marked!");
 	      	marking_police();
 	      }
 	      else{
-	    	alert("is removed!");
 	        remove_police();
 	      }
 	   });
@@ -693,10 +748,15 @@ function checkbox_police(){
 
 function remove_police(){
 	   for (var i = 0; i < markers3.length; i++) {
-	      var marker3 = markers3[i]
-	        marker3.setMap(null);
+	      var marker3 = markers3[i];
+	      marker3.setMap(null);
 	    }
+	   for (var ii = 0; ii < infoWindows2.length; ii++){
+		   var infowindow = infoWindows2[ii];
+		   infowindow.setMap(null);
+	   }
 	    markers3 = [];
+	    infoWindows2 = [];
 	}
 
 function checkbox_search(){
@@ -712,63 +772,44 @@ function checkbox_search(){
 	      }
 	   });
 	}
-	
-
-function checkbox_update(){
-	   $('input[name="up"]').change(function(){
-	      var value = $(this).val();
-	      var checked = $(this).prop('checked');
-	      if(checked){
-	    	  var pos = map.getCenter();
-	    	  cen_x = pos.lat();
-	    	  cen_y = pos.lng();
-	    	  alert(cen_x);
-	    	  alert(cen_y);
-	      }
-	      else{
-	         flag = 1;
-	         infoWindow.close();
-	      }
-	   });
-	}
-	
 
 //cctv, streetlamp marker promise
 getPosition()
 .then((position) => { //get gps position
-   cen_x = 36.765494; //임시 좌표
-   cen_y = 127.282274; //임시좌표
-   //cen_x = position.coords.latitude; //현재 gps 좌표
-   //cen_y = position.coords.longitude; //현재 gps 좌표
-   map.setCenter(naver.maps.LatLng(cen_x,cen_y));
+   gps_x = 36.765494; //임시 좌표
+   gps_y = 127.282274; //임시좌표
+   //gps_x = position.coords.latitude; //현재 gps 좌표
+   //gps_y = position.coords.longitude; //현재 gps 좌표
+   map.setCenter(naver.maps.LatLng(gps_x,gps_y));
    var mylocation = new naver.maps.Marker({ //현재 위치 좌표 마커 표시
            map: map,
-           position: naver.maps.LatLng(cen_x,cen_y),
+           position: naver.maps.LatLng(gps_x,gps_y),
            zIndex: 100,
            icon:{
               url:'./resources/images/mylocation.png'
            }
        });
  })
- .then((position) => { //cctv marker maker
-    loadData1.then(checkbox_cctv); 
+  .then((position) => { //streetlamp marker maker
+   checkbox_cctv();
  })
  .then((position) => { //streetlamp marker maker
-    loadData2.then(checkbox_streetlamp);
+   checkbox_streetlamp();
  })
  .then((position) => {
     //search(cen_x,cen_y);
     loadData3.then(checkbox_police);
  })
  .then((position) => {
-	checkbox_search();
-	checkbox_update();
+    //search(cen_x,cen_y);
+    checkbox_search();
  })
  .catch((err) => {
   alert(err.message);
  });
 
 
+    
 </script>
 </body>
 </html>
