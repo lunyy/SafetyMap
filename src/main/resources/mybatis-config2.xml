@@ -4,7 +4,7 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration>
 	 <typeAliases>
-            <typeAlias type="com.spring.dto.StreetlampVO" alias="StreetlampVO"/>
+            <typeAlias type="com.spring.dto.CrimeVO" alias="CrimeVO"/>
         </typeAliases>
         
     </configuration>

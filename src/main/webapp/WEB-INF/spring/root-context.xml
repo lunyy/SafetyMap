@@ -20,22 +20,21 @@
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url"
-            value="jdbc:log4jdbc:mysql://localhost:3306/cctv_db?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC">
+            value="jdbc:log4jdbc:mysql://localhost:3306/map_db?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC">
         </property>
         <property name="username" value="root"></property>
-        <property name="password" value="fkfkfjfe22"></property>
+        <property name="password" value="koreatech136078"></property>
     </bean>
 
     <bean id="dataSource2"
         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url"
-            value="jdbc:log4jdbc:mysql://localhost:3306/streetlamp_db?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC">
+            value="jdbc:log4jdbc:mysql://localhost:3306/crime_db?zeroDateTimeBehavior=convertToNull&amp;serverTimezone=UTC">
         </property>
         <property name="username" value="root"></property>
-        <property name="password" value="fkfkfjfe22"></property>
+        <property name="password" value="koreatech136078"></property>
     </bean>
-
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"></property>
@@ -48,7 +47,6 @@
          <property name="configLocation" value="classpath:/mybatis-config2.xml"></property>
         <property name="mapperLocations" value="classpath:mappers2/**/*Mapper.xml"></property>
     </bean>
-
          <!-- mybatis      -->
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
         destroy-method="clearCache">
@@ -58,6 +56,7 @@
         destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory2"></constructor-arg>
     </bean>
+
     <context:component-scan base-package="com.spring.dao"></context:component-scan>
     <context:component-scan base-package="com.spring.service"></context:component-scan>
 </beans>
