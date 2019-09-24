@@ -163,7 +163,7 @@
 			<div id="content-wrapper" class="d-flex flex-column">
 	
 				<!-- Main Content -->
-				<div id="content">
+				<div id="content" style="background-color: #FFFFFB;">
 	
 					<!-- Topbar -->
 					<nav
@@ -176,33 +176,29 @@
 						</button>
 						
 						<div style="margin-left:1rem; ">
-							<h3 class="h3 font-weight-bold" style="margin-bottom:0rem !important; margin-top:0rem !important;"> Robbery </h3>
+							<h3 class="h3 font-weight-bold" style="margin-bottom:0rem !important; margin-top:0rem !important;"> Introduction </h3>
 						</div>
 	
 					</nav>
 					<!-- End of Topbar -->
 	
 					<!-- Begin Page Content -->
-					<div class="container-fluid">
+					<div class="container-fluid" vertical-align="top">
 	
 						<!-- Page Heading -->
 						<!-- <h1 class="h3 mb-4 text-gray-800">Blank Page</h1> -->
 
-						<c:forEach var="n" items="${memberList2}" >
-							<c:if test="${n.is_criminal == 4}">
-								<!-- Brand Buttons -->
-		              			<div class="card shadow mb-4">
-		                			<div class="card-header py-3" style="padding-bottom:0.5rem !important; padding-top:0.5rem !important">
-		                  				<a class="m-0 font-weight-bold text-primary" style="width:80%" href="http://newsis.com${n.link}">${n.headline}
-		                  					<p style="float:right; margin-bottom:0rem !important;">${n.date}</p>
-		                  				</a>
-		                			</div>
-		               				<div class="card-body" style="padding: 0.5rem 1.25rem 0.5rem 1.25rem !important;">
-		                  				<p style="margin-bottom: 0rem !important; text-overflow: ellipsis; height: 4.5rem; overflow: hidden;">${n.message}</p>
-									</div>
-								</div>
-							</c:if>
-						</c:forEach>
+						<img src="./resources/images/introduction.png" class=intro_img>
+						<style>
+						@media(max-width:768px){
+						.intro_img{
+						width:100%;
+						heigth:100%;
+							}
+						}
+						</style>
+						
+						</style>
 					<!-- /.container-fluid -->
 	
 				</div>

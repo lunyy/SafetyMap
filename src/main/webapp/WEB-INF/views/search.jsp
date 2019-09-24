@@ -12,7 +12,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<title>Cheonan Satefy Map</title>
+<title>Satefy Map</title>
 
 <!-- Custom fonts for this template-->
 <link href="resources/assets/vendor/fontawesome-free/css/all.min.css"
@@ -55,10 +55,10 @@ ul {
 	overflow: hidden;
 	display: inline-block;
 	position: absolute;
-	top: 7px;
-	left: 5px;
-	width: 34px;
-	height: 34px;
+	top: 10px;
+	left: 0px;
+	width: 30px;
+	height: 30px;
 	border: 1px solid rgba(58, 70, 88, .45);
 	border-radius: 2px;
 	background: #fcfcfd;
@@ -81,7 +81,7 @@ ul {
 #map .spr_ico_mylct {
 	width: 20px;
 	height: 20px;
-	margin: 7px 0 0 0;
+	margin: 5px 0 0 0;
 	background-position: -153px -31px
 }
 </style>
@@ -108,12 +108,10 @@ ul {
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="search">
-				<div class="sidebar-brand-icon rotate-n-15">
-					<i class="fas fa-map"></i>
-				</div>
-				<div class="sidebar-brand-text mx-3">Cheonan Safety Map</div>
+				<img src="./resources/images/logo.png" style="width: 4rem; height: 4rem;">
+				<div class="sidebar-brand-text mx-3">Safety Map</div>
 			</a>
-
+			
 			<!-- Divider -->
 			<hr class="sidebar-divider my-0">
 
@@ -121,7 +119,7 @@ ul {
 				<button class="nav-link" id="police_button"
 					onclick="police_button_click();"
 					style="background-color: transparent; border-color: transparent;">
-					<img src="./resources/images/noun_police.png" class="fas fa-fw"> <span>Police</span>
+					<img src="./resources/images/noun_police.png" class="fas fa-fw" style="margin-right: 0.3em"> <span>Police</span>
 				</button>
 			</li>
 
@@ -129,7 +127,7 @@ ul {
 				<button class="nav-link" id="cctv_button"
 					onclick="cctv_button_click();"
 					style="background-color: transparent; border-color: transparent;">
-					<img src="./resources/images/noun_cctv.png" class="fas fa-fw"> <span>CCTV</span>
+					<img src="./resources/images/noun_cctv.png" class="fas fa-fw" style="margin-right: 0.3em"> <span>CCTV</span>
 				</button>
 			</li>
 
@@ -137,7 +135,7 @@ ul {
 				<button class="nav-link" id="streetlamp_button"
 					onclick="streetlamp_button_click();"
 					style="background-color: transparent; border-color: transparent;">
-					<img src="./resources/images/noun_streetlamp.png" class="fas fa-fw"> <span>Street
+					<img src="./resources/images/noun_streetlamp.png" class="fas fa-fw" style="margin-right: 0.3em"> <span>Street
 						Lamp</span>
 				</button>
 			</li>
@@ -148,8 +146,8 @@ ul {
 			<!-- Nav Item - Utilities Collapse Menu -->
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
 				data-toggle="collapse" data-target="#collapseUtilities"
-				aria-expanded="true" aria-controls="collapseUtilities"> 
-				<img src="./resources/images/noun_crime.png" class="fas fa-fw"> <span>Crime</span>
+				aria-expanded="true" aria-controls="collapseUtilities">
+				<img src="./resources/images/noun_crime.png" class="fas fa-fw" style="margin-right: 0.3em"> <span>Crime</span>
 			</a>
 				<c:set var="violence" value="0"/>
 				<c:set var="sviolence" value="0"/>
@@ -177,19 +175,19 @@ ul {
 								<c:when test="${n.is_criminal == 5}">
 									<c:set var="murder" value="${murder+1}"/>
 								</c:when>
-								
+
 							</c:choose>
 						</c:forEach>
 						<a class="collapse-item" id="violence" href="./violence">폭력  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<c:out value="${violence}"/>
-						건</a> 
+						건</a>
 						<a class="collapse-item" id="Sviolence" href="./sviolence">성폭력  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<c:out value="${sviolence}"/>
 						건</a>
-						<a class="collapse-item" id="theft" href="./theft">절도 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+						<a class="collapse-item" id="theft" href="./theft">절도 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<c:out value="${theft}"/>
 						건</a>
-						<a class="collapse-item" id="robbery" href="./robbery">강도 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+						<a class="collapse-item" id="robbery" href="./robbery">강도 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 							<c:out value="${robbery}"/>
 						건</a>
 						<a class="collapse-item" id="murder" href="./murder">살인 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
@@ -207,15 +205,15 @@ ul {
 			<!-- Nav Item - Pages Collapse Menu -->
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
 				data-toggle="collapse" data-target="#collapseTwo"
-				aria-expanded="true" aria-controls="collapseTwo"> 
-				<img src="./resources/images/noun_preference.png" class="fas fa-fw"><span>Components</span>
+				aria-expanded="true" aria-controls="collapseTwo">
+				<img src="./resources/images/noun_preference.png" class="fas fa-fw" style="margin-right: 0.45em"><span>Components</span>
 			</a>
 				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
 					data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<h6 class="collapse-header">Custom Components:</h6>
 						<a class="collapse-item" href="buttons.html">버전 1.0</a> <a
-							class="collapse-item" href="cards.html">사용법</a>
+							class="collapse-item" href="./intro">사용법</a>
 					</div>
 				</div></li>
 
@@ -240,12 +238,16 @@ ul {
 				<nav
 					class="navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
 
+
 					<!-- Sidebar Toggle (Topbar) -->
 					<button id="sidebarToggleTop"
 						class="btn btn-link d-md-none rounded-circle mr-3">
 						<i class="fa fa-bars"></i>
+					<div id="refresh" style="position:absolute;display:none;width:100%;height:300px;margin-left:15px;padding-right:14px;margin-top:5px;z-index:10000;"></div>	
 					</button>
-					<div id="wrap" style="position:absolute;display:none; width:100%;margin-left:20px;margin-top:280px;z-index:1000;"></div>
+					
+		
+
 					<!-- Topbar Search -->
 					<form
 						class=" d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
@@ -260,22 +262,26 @@ ul {
 								<button id="submit" class="btn btn-primary" type="button">
 									<i class="fas fa-search fa-sm"></i>
 								</button>
-								
+
 							</div>
-						
+
 						</div>
+
 					</form>
 
 				</nav>
 				<!-- End of Topbar -->
 
 				<!-- Begin Page Content -->
+
+				<div id="wrap" style="position:absolute;display:none;width:100%;height:300px;margin-left:15px;padding-right:14px;margin-top:5px;z-index:10000;"></div>
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
 					<!-- <h1 class="h3 mb-4 text-gray-800">Blank Page</h1> -->
 
-					<div id="map" style="width: 100%; height: 700px;"></div>
+					<div id="map" style="width: 100%; height: 750px;"></div>
+
 
 				</div>
 				<!-- /.container-fluid -->
@@ -331,12 +337,12 @@ ul {
 	<script src="resources/assets/js/sb-admin-2.min.js"></script>
 
 	<!-- MAP -->
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script id="code">
 
 	  //cctv db load
 	  var gps_x = 0, gps_y = 0;
-	  var cen_x = 0, cen_y = 0 , index_c = 0;
+	  var cen_x = 36.765494, cen_y = 127.282274 , index_c = 0;
 	  var addr = new Array(), type = new Array(), posx = new Array(),posy = new Array();
 	  var flag = 1, flag2 = 1, flag3 = 1;
 	  var markerClustering1,markerClustering2;
@@ -372,7 +378,7 @@ ul {
 	  function marking_cctv(){
 
 	  //contentstring data push
-	  for (let k = 0; k<1000; k++){
+	  for (let k = 0; k<300; k++){
 	        contentstring[k]= [
 	            '<div class="iw_inner" style="padding:5px;min-width:160px;line-height:100%;">',
 	            '   <h4 style="font-size:1.0em;margin-top:5px;">'+addr[k]+'</h4>',
@@ -383,7 +389,7 @@ ul {
 	  }
 
 	  // make cctv marker
-	  for (let i = 0; i<1000; i++) {
+	  for (let i = 0; i<300; i++) {
 	         var position = new naver.maps.LatLng(
 	            posx[i], posy[i]);
 
@@ -406,7 +412,7 @@ ul {
 	          markers.push(marker);
 	          infoWindows.push(infoWindow);
 	     };
-	     
+
 	  for (var i=0, ii=markers.length; i<ii; i++) {
 	       naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
 	       }
@@ -456,7 +462,7 @@ ul {
 	  var posx_s = new Array(), posy_s = new Array();
 	  var index_s = 0;
 
-	  function getData2(){ // street lamp ajax 호출 
+	  function getData2(){ // street lamp ajax 호출
 	      return new Promise(function(resolve, reject) {
 	          $.ajax({
 	              url : './resources/data/street.json',
@@ -476,8 +482,8 @@ ul {
 
 	  //streetlamp marking function
 	  function marking_streetlamp(){
-	     
-	     for (let j = 0; j<2000; j++){
+
+	     for (let j = 0; j<500; j++){
 	         var position2 = new naver.maps.LatLng(
 	              posx_s[j], posy_s[j]);
 
@@ -486,13 +492,13 @@ ul {
 	                position: position2,
 	                zIndex: 100,
 	                icon:{
-	                   url:'./resources/images/streetlamp.png'
+	                   url:'./resources/images/streetlamp_2.png'
 	                }
 	            });
 
 	          markers2.push(marker2);
 	     }
-	     
+
 	  //street lamp clustering icon
 	  var streetlampMarker1 = {
 	             content: '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(./resources/images/streetlamp_c3.png);background-size:contain;"></div>',
@@ -509,7 +515,7 @@ ul {
 	             size: N.Size(40, 40),
 	             anchor: N.Point(20, 20)
 	  };
-	        
+
 	  //streetlamp marker clustering module
 	  	markerClustering2 = new MarkerClustering({
 	         minClusterSize: 2,
@@ -555,7 +561,7 @@ ul {
 
 	  function marking_police(){
 	  	//contentstring data push
-	  	
+
 	  	for (let k = 0; k<18; k++){
 	  	      contentstring2[k]= [
 	  	       '<div class="iw_inner" style="padding:5px;min-width:120px;line-height:100%;text-align:center;">',
@@ -590,35 +596,39 @@ ul {
 	  	        markers3.push(marker);
 	  	        infoWindows2.push(infoWindow2);
 	  	   };
-	  	   
+
 	  	   for (var i=0, ii=markers3.length; i<ii; i++) {
 	  		    naver.maps.Event.addListener(markers3[i], 'click', getClickHandler2(i));
 	  		    }
-	  }	   
+	  }
 
 	  var HOME_PATH = window.HOME_PATH || '.';
 
 	  //gps position load
+	  //current position
 	  var getPosition = function (options) {
 	       return new Promise(function (resolve, reject) {
 	         navigator.geolocation.getCurrentPosition(resolve, reject, options);
 	       });
 	     }
+	  //keep watching current position
+	  var watchId = function (options){
+		  return new Promise (function (resolve, reject){
+			  navigator.geolocation.watchPosition(resolve, reject, options);
+		  })
+	  }
 
 	  //map load
+	  
+	  
 	  var map = new naver.maps.Map('map', {
-	     position: naver.maps.LatLng(cen_x,cen_y),
-	      zoom: 7,
-	      zoomControl: true,
-	      zoomControlOptions: {
-	          position: naver.maps.Position.TOP_RIGHT,
-	          style: naver.maps.ZoomControlStyle.SMALL
-	      },
+	      position: naver.maps.LatLng(cen_x,cen_y),
+	      zoom: 12,
 	      mapTypeControl: true,
 	      mapTypeControlOptions: {
 	         style:naver.maps.MapTypeControlStyle.BUTTON,
-	         position: naver.maps.Position.TOP_RIGHT
-	      }
+	         position: naver.maps.Position.TOP_LEFT
+	      },
 	  });
 
 	  var bounds = map.getBounds(),
@@ -713,9 +723,9 @@ ul {
 
 	  var domEventListener = naver.maps.Event.addDOMListener(customControl.getElement(), 'click', function() {
 	      map.setCenter(new naver.maps.LatLng(gps_x, gps_y));
-	      map.setZoom(12,true);
+	      map.setZoom(14,true);
 	  });
-	     
+
 	  var infoWindow = new naver.maps.InfoWindow({
 	      anchorSkew: true
 	  });
@@ -771,8 +781,8 @@ ul {
 	      jQuery("#wrap").slideUp();
 
 	  }
-	  
-	  
+
+
 	  // search by tm128 coordinate
 	  function searchCoordinateToAddress(latlng) {
 	      var tm128 = naver.maps.TransCoord.fromLatLngToTM128(latlng);
@@ -890,14 +900,14 @@ ul {
 	        if(!checked_cctv && initial_cctv){
 	          checked_cctv = 1;
 	          document.getElementById("cctv_button").style.backgroundColor = "#324a8f";
-	      	  getData().then((data) => { 
+	      	  getData().then((data) => {
 	      	  	 var pos = map.getCenter();
 	      	     cen_x = pos.lat();
 	      	     cen_y = pos.lng();
-	      	     var x_plus = parseFloat(cen_x+0.03).toFixed(3);
-	      	     var x_minus = parseFloat(cen_x-0.03).toFixed(3);
-	      	     var y_plus = parseFloat(cen_y+0.03).toFixed(3);
-	      	     var y_minus = parseFloat(cen_y-0.03).toFixed(3);
+	      	     var x_plus = parseFloat(cen_x+0.012).toFixed(3);
+	      	     var x_minus = parseFloat(cen_x-0.012).toFixed(3);
+	      	     var y_plus = parseFloat(cen_y+0.012).toFixed(3);
+	      	     var y_minus = parseFloat(cen_y-0.012).toFixed(3);
 	      	  	 for(var sam = 0; sam < data.length; sam++){
 	      	  		var temp_x = parseFloat(data[sam].posx).toFixed(3);
 	       	  		var temp_y = parseFloat(data[sam].posy).toFixed(3);
@@ -913,11 +923,37 @@ ul {
 	      	                 }
 	      	            }
 	      	  	 }
+	      	  	 if(posx.length>300){//만약 cctv 마커가 300개가 넘으면 범위 다시 지정
+	      	  		index_c = 0;
+	      	  		posx = [];
+	      	  		posy = [];
+	      	  		type = [];
+	      	  		addr = [];
+	      	  		x_plus = parseFloat(cen_x+0.008).toFixed(3);
+	      	     	x_minus = parseFloat(cen_x-0.008).toFixed(3);
+	      	     	y_plus = parseFloat(cen_y+0.008).toFixed(3);
+	      	     	y_minus = parseFloat(cen_y-0.008).toFixed(3);
+	      	  		for(var sam = 0; sam < data.length; sam++){
+		      	  		var temp_x = parseFloat(data[sam].posx).toFixed(3);
+		       	  		var temp_y = parseFloat(data[sam].posy).toFixed(3);
+		       	  		var temp_type = data[sam].cctvType;
+		       	  		var temp_addr = data[sam].oldAddr;
+		      	           if((x_minus < temp_x) && (temp_x <= x_plus)){
+		      	              if((y_minus < temp_y) && (temp_y <= y_plus)){
+		      	                 posx[index_c] = temp_x;
+		      	                 posy[index_c] = temp_y;
+		      	                 type[index_c] = temp_type;
+		      	                 addr[index_c] = temp_addr;
+		      	                 index_c = index_c+1;
+		      	                 }
+		      	            }
+		      	  	 }
+	      	  	 }
 	      	  }).then((data) => {
-	      		marking_cctv();
+	      		 marking_cctv();
 	      	  }).catch((err) => {
 	      	  	alert("Woops!");
-	      	  });	   
+	      	  });
 	        }
 	        else{
 	          if(initial_cctv) {
@@ -926,10 +962,10 @@ ul {
 		          markerClustering1.setMap(null);
 		          index_c = 0;
 		          posx = [], posy = [], type = [], addr = [];
-	          }         
+	          }
 	          checked_cctv = 0;
 	          initial_cctv = 1;
-	          
+
 	        }
 	  }
 
@@ -944,7 +980,7 @@ ul {
 	     }
 	     markers = [];
 	     infoWindows = [];
-	    
+
 	  }
 	  var checked_streetlamp = 0;
 	  var initial_streetlamp = 0;
@@ -953,14 +989,14 @@ ul {
 	        if(!checked_streetlamp && initial_streetlamp){
 	          checked_streetlamp = 1;
 	          document.getElementById("streetlamp_button").style.backgroundColor = "#324a8f";
-	          getData2().then((data) => { 
+	          getData2().then((data) => {
 	       	  	 pos = map.getCenter();
 	       	     cen_x = pos.lat();
 	       	     cen_y = pos.lng();
-	       	     var x_plus2 = parseFloat(cen_x+0.03).toFixed(3);
-	       	     var x_minus2 = parseFloat(cen_x-0.03).toFixed(3);
-	       	     var y_plus2 = parseFloat(cen_y+0.03).toFixed(3);
-	       	     var y_minus2 = parseFloat(cen_y-0.03).toFixed(3);
+	       	     var x_plus2 = parseFloat(cen_x+0.012).toFixed(3);
+	       	     var x_minus2 = parseFloat(cen_x-0.012).toFixed(3);
+	       	     var y_plus2 = parseFloat(cen_y+0.012).toFixed(3);
+	       	     var y_minus2 = parseFloat(cen_y-0.012).toFixed(3);
 	       	  	 for(var sam = 0; sam < data.length; sam++){
 	       	  		 var temp_x = parseFloat(data[sam].posx).toFixed(3);
 	       	  		 var temp_y = parseFloat(data[sam].posy).toFixed(3);
@@ -972,11 +1008,53 @@ ul {
 	       	                 }
 	       	            }
 	       	  	 }
+	       	  	 //만약 가로등 개수가 500개이상 1500개 이하이면 좌표를 다시 받아옴
+	       	  	 if(posx_s.length>500&&posx_s.length<1500){
+	       	  		 posx_s = [];
+	       	  		 posy_s = [];
+	       	  		 index_s = 0;
+		       	  	 x_plus2 = parseFloat(cen_x+0.008).toFixed(3);
+		       	     x_minus2 = parseFloat(cen_x-0.008).toFixed(3);
+		       	     y_plus2 = parseFloat(cen_y+0.008).toFixed(3);
+		       	     y_minus2 = parseFloat(cen_y-0.008).toFixed(3);
+		       	  	 for(var sam = 0; sam < data.length; sam++){
+		       	  		 var temp_x = parseFloat(data[sam].posx).toFixed(3);
+		       	  		 var temp_y = parseFloat(data[sam].posy).toFixed(3);
+		       	           if((temp_x <= x_plus2)&&(temp_x > x_minus2)){
+		       	              if((temp_y <= y_plus2)&&(temp_y > y_minus2)){
+		       	                 posx_s[index_s] = temp_x;
+		       	                 posy_s[index_s] = temp_y;
+		       	                 index_s = index_s+1;
+		       	             }
+		       	         }
+		       	  	 }
+	       	  	 }
+	       	  	 //만약 가로등 개수가 1500개 이상이면 좌표를 다시 받아옴
+	       	  	 else if(posx_s.length>1500){
+	      	  		 posx_s = [];
+	      	  		 posy_s = [];
+	      	  		 index_s = 0;
+		       	  	 x_plus2 = parseFloat(cen_x+0.006).toFixed(3);
+		       	     x_minus2 = parseFloat(cen_x-0.006).toFixed(3);
+		       	     y_plus2 = parseFloat(cen_y+0.006).toFixed(3);
+		       	     y_minus2 = parseFloat(cen_y-0.006).toFixed(3);
+		       	  	 for(var sam = 0; sam < data.length; sam++){
+		       	  		 var temp_x = parseFloat(data[sam].posx).toFixed(3);
+		       	  		 var temp_y = parseFloat(data[sam].posy).toFixed(3);
+		       	           if((temp_x <= x_plus2)&&(temp_x > x_minus2)){
+		       	              if((temp_y <= y_plus2)&&(temp_y > y_minus2)){
+		       	                 posx_s[index_s] = temp_x;
+		       	                 posy_s[index_s] = temp_y;
+		       	                 index_s = index_s+1;
+		       	                 }
+		       	            }
+		       	  	 	}
+	       	  	 }
 	       	  }).then((data) => {
 	       		 marking_streetlamp();
 	       	  }).catch((err) => {
 	       	  	alert("Woops!");
-	       	  });	   
+	       	  });
 	        }
 	        else{
 	           if(initial_streetlamp) {
@@ -1003,7 +1081,7 @@ ul {
 	  var initial_police = 0;
 	  function police_event(){
 	  	      var value = $("#police_button").val();
-	  	   	  
+
 	  	      if(!checked_police && initial_police){
 	  	    	document.getElementById("police_button").style.backgroundColor = "#324a8f";
 	  	      	marking_police();
@@ -1017,7 +1095,7 @@ ul {
 	  	    	checked_police = 0;
 	  	    	initial_police = 1;
 	  	      }
-	  	}	
+	  	}
 
 	  function remove_police(){
 	  	   for (var i = 0; i < markers3.length; i++) {
@@ -1046,8 +1124,9 @@ ul {
 	  	   });
 	  	}
 
+
 	  //cctv, streetlamp marker promise
-	  getPosition()
+	  watchId()
 	  .then((position) => { //get gps position
 	     //gps_x = 36.765494; //임시 좌표
 	     //gps_y = 127.282274; //임시좌표
@@ -1081,6 +1160,7 @@ ul {
 	    alert(err.message);
 	   });
 
+
 	  //scroll delete
 	  $('html, body').css({'overflow': 'hidden', 'height': '100%'});
 	  $('#element').on('scroll touchmove mousewheel', function(event) {
@@ -1088,7 +1168,8 @@ ul {
 	    event.stopPropagation();
 	    return false;
 	  });
-	      
+
 	  </script>
+
 	</body>
 	</html>
