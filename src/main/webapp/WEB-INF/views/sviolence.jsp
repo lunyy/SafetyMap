@@ -9,7 +9,7 @@
 		<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 		
-		<title>Cheonan Satefy Map</title>
+		<title>Satefy Map</title>
 		
 		<!-- Custom fonts for this template-->
 		<link href="resources/assets/vendor/fontawesome-free/css/all.min.css"
@@ -40,10 +40,8 @@
 				<a
 					class="sidebar-brand d-flex align-items-center justify-content-center"
 					href="search">
-					<div class="sidebar-brand-icon rotate-n-15">
-						<i class="fas fa-map"></i>
-					</div>
-					<div class="sidebar-brand-text mx-3">Cheonan Safety Map</div>
+					<img src="./resources/images/logo.png" style="width: 4rem; height: 4rem;">
+					<div class="sidebar-brand-text mx-3">Safety Map</div>
 				</a>
 	
 				<!-- Divider -->
@@ -73,7 +71,11 @@
 							Lamp</span>
 					</button>
 				</li>
-	
+				<c:set var="violence" value="0"/>
+				<c:set var="sviolence" value="0"/>
+				<c:set var="theft" value="0"/>
+				<c:set var="robbery" value="0"/>
+				<c:set var="murder" value="0"/>
 				<!-- Divider -->
 				<hr class="sidebar-divider">
 	
@@ -142,7 +144,7 @@
 						<div class="bg-white py-2 collapse-inner rounded">
 							<h6 class="collapse-header">Custom Components:</h6>
 							<a class="collapse-item" href="buttons.html">버전 1.0</a> <a
-								class="collapse-item" href="cards.html">사용법</a>
+								class="collapse-item" href="./intro">사용법</a>
 						</div>
 					</div></li>
 	
@@ -196,7 +198,7 @@
 		                  				</a>
 		                			</div>
 		               				<div class="card-body" style="padding: 0.5rem 1.25rem 0.5rem 1.25rem !important;">
-		                  				<p style="margin-bottom: 0rem !important;">${n.message}</p>
+		                  				<p style="margin-bottom: 0rem !important; text-overflow: ellipsis; height: 4.5rem; overflow: hidden;">${n.message}</p>
 									</div>
 								</div>
 							</c:if>
